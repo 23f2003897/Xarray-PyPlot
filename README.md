@@ -2,7 +2,7 @@
 
 A comprehensive bridge analysis tool for visualizing Shear Force Diagrams (SFD) and Bending Moment Diagrams (BMD) for bridge girders using Python and modern visualization libraries.
 
-![Banner Placeholder](https://via.placeholder.com/1000x300?text=Bridge+Analysis+Visualization+Tool)
+![OSDAG Bridge Analysis](images/banner.png)
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
 ![Plotly](https://img.shields.io/badge/Plotly-5.14-3F4F75?logo=plotly&logoColor=white)
