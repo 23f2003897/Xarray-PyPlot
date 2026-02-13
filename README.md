@@ -2,35 +2,59 @@
 
 A comprehensive bridge analysis tool for visualizing Shear Force Diagrams (SFD) and Bending Moment Diagrams (BMD) for bridge girders using Python and modern visualization libraries.
 
-## 📋 Project Overview
+![Banner Placeholder](https://via.placeholder.com/1000x300?text=Bridge+Analysis+Visualization+Tool)
 
-This project implements two main analysis tasks for a bridge grillage model:
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
+![Plotly](https://img.shields.io/badge/Plotly-5.14-3F4F75?logo=plotly&logoColor=white)
+![Xarray](https://img.shields.io/badge/Data-Xarray-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen)
 
-### **Task 1: 2D SFD/BMD for Central Girder**
-- Extracts and visualizes shear force and bending moment data for the central longitudinal girder (Elements: 15, 24, 33, 42, 51, 60, 69, 78, 83)
-- Creates 2D plots showing force distribution along the girder length
-- Includes both interactive (Plotly) and static (Matplotlib) visualizations
+---
 
-### **Task 2: 3D SFD/BMD for All Girders**
-- Generates 3D force diagrams for all 5 transverse girders
-- Uses extruded visualization style (force values in vertical Y direction)
-- Shows both Bending Moment Diagram (BMD) and Shear Force Diagram (SFD)
-- Provides MIDAS-style engineering visualization with color-coded girders
+## 📖 Description
 
-## 🚀 Quick Start
+The **OSDAG Bridge Screening & Analysis Tool** is a specialized engineering utility designed to visualize Shear Force Diagrams (SFD) and Bending Moment Diagrams (BMD) for complex bridge grillage models.
 
-### Prerequisites
-- Python 3.8 or higher
-- Virtual environment (recommended)
+Processing data from NetCDF (`.nc`) formats, this tool performs statistical analysis on force components and generates high-fidelity 2D and 3D visualizations. It is specifically engineered to handle multi-girder bridge decks, offering engineers both interactive insights (via Plotly) and publication-ready static exports (via Matplotlib).
 
-### Installation
+---
 
-1. **Clone/Extract the project**
+## ✨ Key Features
+
+* **Automated Data Extraction:** Seamlessly loads and processes NetCDF data to extract forces ($M_z$, $V_y$) for specific bridge elements.
+* **2D Critical Analysis (Task 1):** * Focuses on the Central Longitudinal Girder (Girder 3).
+    * Generates dual-axis plots for SFD and BMD with hatching and peak value annotations.
+    * Exports critical data points to CSV (`critical_moments.csv`, `forces_complete.csv`).
+* **3D Grillage Visualization (Task 2):** * Renders a complete 3D wireframe of the bridge.
+    * Visualizes forces for all 5 girders simultaneously using vertical extrusion.
+    * Color-coded girders for easy identification (e.g., Girder 1 is Red, Girder 3 is Green).
+* **Hybrid Output Formats:** Produces interactive HTML files for exploration and high-DPI PNG images for reports.
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Core Logic** | Python 3.x | Main programming language |
+| **Data Handling** | Xarray, Pandas, NumPy | Multi-dimensional array handling and data manipulation |
+| **File I/O** | NetCDF4 | Reading engineering simulation data |
+| **Visualization** | Plotly | Interactive 3D and 2D plotting |
+| **Static Plots** | Matplotlib | High-quality static image generation |
+
+---
+
+## ⚙️ Installation
+
+Follow these steps to set up the project locally.
+
+### 1. Clone the Repository
 ```bash
+git clone https://github.com/23f2003897/Xarray-PyPlot
 cd osdag-bridge-analysis
 ```
-
-2. **Create and activate virtual environment**
+## 2. Set Up Virtual Environment
 ```bash
 # Windows
 python -m venv venv
@@ -41,28 +65,12 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-3. **Install required packages**
-```bash
-pip install xarray netCDF4 plotly matplotlib numpy
+## 3. Install Dependencies
+``` bash
+pip install -r requirements.txt
 ```
 
-### Running the Analysis
-
-**Use Jupyter Notebook:**
-```bash
-jupyter notebook Osdag_Screening_Assignment.ipynb
-```
-
-## 📁 Project Structure
-
-```
-osdag-bridge-analysis/
-├── README.md                              # This file
-├── Osdag_Screening_Assignment.ipynb       # Jupyter Notebook (main analysis)
-├── screening_task (2).nc                  # Input data (netCDF format)
-├── venv/                                  # Virtual environment
-└── requirements.txt                       # Python dependencies
-```
+---
 
 ## 📊 Input Data
 
@@ -104,153 +112,38 @@ osdag-bridge-analysis/
   - Interactive rotation and zoom (Plotly)
   - Professional engineering visualization style
 
-## 💻 Usage Examples
+---
 
-### Jupyter Notebook
-Open and run cells sequentially:
-```python
-# Cell 1: Install libraries
-%pip install xarray netCDF4 plotly -q
 
-# Cell 2: Import and load data
-import xarray as xr
-import numpy as np
-ds = xr.open_dataset('screening_task (2).nc')
-
-# Cell 3: Extract central girder data
-positions, shear_forces, bending_moments = extract_girder_data(
-    ds, central_girder_elements, nodes, members
-)
-
-# Cell 4-6: Create and view visualizations
-fig_2d = plot_2d_diagrams_plotly(positions, shear_forces, bending_moments)
-fig_2d.show()
-
-fig_bmd = create_3d_diagram_plotly(ds, girders_info, nodes, members, 
-                                    force_type='Mz', scale_factor=0.01)
-fig_bmd.show()
-```
-
-### Saving Visualizations
-```python
-# Save as HTML (interactive)
-fig_2d.write_html('Task1_2D_Diagrams.html')
-fig_bmd_3d.write_html('Task2_3D_BMD.html')
-fig_sfd_3d.write_html('Task2_3D_SFD.html')
-
-# Save as image (static)
-# Right-click on Plotly plots and select "Download plot as PNG"
-# For Matplotlib: plt.savefig('diagram.png', dpi=300, bbox_inches='tight')
-```
-
-## 🔧 Key Functions
-
-### `extract_girder_data()`
-Extracts shear force and bending moment data for a specific girder from the dataset.
-
-**Parameters:**
-- `ds`: Xarray Dataset
-- `element_ids`: List of element IDs forming the girder
-- `nodes_dict`: Dictionary of node coordinates
-- `members_dict`: Dictionary of element connections
-
-**Returns:** Positions, shear forces, and bending moments arrays
-
-### `plot_2d_diagrams_plotly()`
-Creates interactive 2D SFD and BMD plots using Plotly with subplots.
-
-**Parameters:**
-- `positions`: X-coordinates along girder
-- `shear_forces`: Shear force values
-- `bending_moments`: Bending moment values
-
-### `create_3d_diagram_plotly()`
-Creates 3D force diagrams for all girders in MIDAS style.
-
-**Parameters:**
-- `ds`: Xarray Dataset
-- `girders_info_dict`: Dictionary of girder configurations
-- `nodes_dict`: Dictionary of node coordinates
-- `members_dict`: Dictionary of element connections
-- `force_type`: 'Mz' for bending moment or 'Vy' for shear force
-- `scale_factor`: Scaling factor for force visualization
-
-## 📊 Bridge Model Details
-
-**Bridge Type:** Grillage Model (5 parallel girders)
-
-**Dimensions:**
-- **Longitudinal:** 25.0 m (9 elements per girder)
-- **Transverse:** 10.35 m spacing (5 girders)
-
-**Node Count:** 50 nodes total
-
-**Element Count:** 85 elements
-- Longitudinal members (deck girders): 45 elements
-- Transverse members (diaphragms): 25 elements
-- Vertical members (supports): 15 elements
-
-## 🎨 Visualization Features
-
-### Interactive Elements (Plotly)
-- ✅ Hover tooltips with force values
-- ✅ Zoom and pan controls
-- ✅ Toggle series on/off
-- ✅ Download as PNG
-- ✅ 3D rotation in all directions
-- ✅ Dynamic legend
-
-### Static Elements (Matplotlib)
-- ✅ Publication-quality output
-- ✅ Filled areas for better visualization
-- ✅ Customizable fonts and colors
-- ✅ High DPI export capability
-
-## 📋 Requirements
-
-```
-xarray>=2022.0.0
-netCDF4>=1.6.0
-plotly>=5.0.0
-matplotlib>=3.5.0
-numpy>=1.20.0
-```
-
-Install all requirements:
+## 🚀 Usage
+The project is split into two main analysis tasks. Run the scripts directly from your terminal.
+### Run Task 1: 2D Analysis (Central Girder)
+Analyzes the central girder, calculates critical moments, and generates 2D plots.
 ```bash
-pip install -r requirements.txt
+python 2d_plots.py
 ```
 
-## 🐛 Troubleshooting
-
-### Issue: `ModuleNotFoundError: No module named 'xarray'`
-**Solution:** Install required packages
+* Outputs: **output/task1_2d_diagrams.html**, **output/critical_moments.csv**, etc.
+### Run Task 2: 3D Visualization (All Girders)
+Generates the 3D bridge model with extruded force diagrams for all 5 girders.
 ```bash
-pip install xarray netCDF4 plotly matplotlib
+python 3d_plots.py
+
+---
 ```
-
-### Issue: `AttributeError: 'Dataset' object has no attribute 'element_id'`
-**Solution:** Ensure you're using the correct dimension name `Element` (capital E)
-
-### Issue: Plots not displaying in Jupyter
-**Solution:** Ensure you have Plotly and Jupyter extensions installed
-```bash
-pip install plotly-orca psutil
-jupyter nbextension enable --py --sys-prefix plotly
+## 📂 Folder Structure
 ```
-
-### Issue: Large file size when saving as HTML
-**Solution:** The interactive HTML files contain all data. Use PNG export for smaller file sizes.
-
-## 📈 Performance Notes
-
-- **Notebook Startup:** ~3-5 seconds (first cell with imports)
-- **Dataset Loading:** ~1-2 seconds
-- **Data Extraction:** ~0.5 seconds
-- **2D Plot Generation:** ~2 seconds
-- **3D Plot Generation:** ~3 seconds per diagram
-- **Total Execution Time:** ~10 seconds (complete notebook run)
-
+.
+├── data/
+│   ├── element.py             # Element definitions
+│   ├── node.py                # Node coordinate definitions
+│   └── screening_task (2).nc  # Input NetCDF dataset
+├── output/                    # Generated plots and CSVs (Auto-created)
+├── 2d_plots.py                # Script for Task 1 (2D Analysis)
+├── 3d_plots.py                # Script for Task 2 (3D Visualization)
+├── requirements.txt           # Project dependencies
+└── README.md                  # Project documentation
+---
 ## 🔬 Technical Details
 
 ### Data Processing Pipeline
@@ -271,6 +164,9 @@ jupyter nbextension enable --py --sys-prefix plotly
 - **_i:** Force at element start node
 - **_j:** Force at element end node
 
+
+---
+
 ## 📝 Notes
 
 1. **Scale Factors:** 
@@ -286,6 +182,8 @@ jupyter nbextension enable --py --sys-prefix plotly
    - Each girder has a unique color for easy identification
    - Baseline shown in gray dashed lines
 
+---
+
 ## 📚 References
 
 - **Xarray Documentation:** https://docs.xarray.dev/
@@ -293,16 +191,19 @@ jupyter nbextension enable --py --sys-prefix plotly
 - **Matplotlib Documentation:** https://matplotlib.org/
 - **NetCDF Format:** https://www.unidata.ucar.edu/software/netcdf/
 
-## 👨‍💼 Author
-
-OSDAG Screening Assignment - Bridge Analysis Tool
-
-## 📄 License
-
-Open source - Use and modify as needed for educational and professional purposes.
-
 ---
 
-**Last Updated:** February 3, 2026
 
-For questions or issues, refer to the troubleshooting section or check the inline code comments in the notebooks.
+## 🤝 Contributing
+Contributions are welcome! Please follow these steps:
+
+* Fork the repository.
+
+* Create a feature branch (**git checkout -b feature/AmazingFeature**).
+
+* Commit your changes (**git commit -m 'Add some AmazingFeature'**).
+
+* Push to the branch (**git push origin feature/AmazingFeature**).
+
+* Open a Pull Request.
+ ----
