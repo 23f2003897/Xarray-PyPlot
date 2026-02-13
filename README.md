@@ -143,6 +143,7 @@ python 3d_plots.py
 ├── 3d_plots.py                # Script for Task 2 (3D Visualization)
 ├── requirements.txt           # Project dependencies
 └── README.md                  # Project documentation
+```
 ---
 ## 🔬 Technical Details
 
